@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles/styles.css">
-  <title>Tic Tac Toe - Version 2 - Elizabeth Koch - DGMD E-28 Assignment 2</title>
+  <title>Tic Tac Toe - Version 4 - Elizabeth Koch - DGMD E-28 Assignment 2</title>
   <link rel="icon" href="assets/favicon/okf.ico" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -19,24 +19,31 @@
     <span id="theme-icon">🌞</span>
   </div>
 </header>
-<div class="turn-indicator">It's O's turn</div>
-<div class="board">
-  <script>
-    const NUM_SQUARES = 9;
-    for (let i = 0; i < NUM_SQUARES; i++) {
-      let id = "sq" + i;
-      document.write("<div class='square' id='" + id + "'></div>");
-    }
-  </script>
-</div>
+<div class="turn-indicator" id="turnIndicator"></div>
+<div class="board" id="board"></div>
 <div class="win-condition">No winner yet</div>
 <script src="scripts/script.js"></script>
 <script>
-  // Ensure that X's and O's are placed AFTER the board is created
   document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("sq0").textContent = "X";
-    document.getElementById("sq4").textContent = "O";
-    document.getElementById("sq8").textContent = "X";
+    const board = document.getElementById("board");
+    const turnIndicator = document.getElementById("turnIndicator");
+    let currentPlayer = Math.random() < 0.5 ? "X" : "O";
+    turnIndicator.textContent = `Player ${currentPlayer}'s Turn`;
+
+    const NUM_SQUARES = 9;
+    for (let i = 0; i < NUM_SQUARES; i++) {
+      let square = document.createElement("div");
+      square.classList.add("square");
+      square.dataset.index = i;
+      square.addEventListener("click", function() {
+        if (!this.textContent) {
+          this.textContent = currentPlayer;
+          currentPlayer = currentPlayer === "X" ? "O" : "X";
+          turnIndicator.textContent = `Player ${currentPlayer}'s Turn`;
+        }
+      });
+      board.appendChild(square);
+    }
   });
 </script>
 </body>
